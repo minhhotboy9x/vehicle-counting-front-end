@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+/* base styles */
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333;
+  box-sizing: border-box;
+  /* background-color: #F0F2F5; */
+}
+body {
+  background-color: #F0F2F5;
+}
+
+.navbar {
+  padding: 20px 20px 20px 5%;
+  display: flex;
+  align-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+  border-bottom: 1px solid #f2f2f2;
+  background-color: #FFFFFF;
+}
+.navbar h1 .navbar-label{
+  color: #f1356d;
+}
+.navbar .links {
+  padding: auto;
+  margin-left: auto;
+  margin-right: 15%;
+}
+.navbar a {
+  margin-left: 16px;
+  text-decoration: none;
+  padding: 6px;
+}
+.navbar a:hover {
+  color: #f1356d;
+}
+
+
+button {
+  background: #f1356d;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+button:hover {
+  background: #fff;
+  border: 1px solid #f1356d;
+  color: #f1356d;
+}
