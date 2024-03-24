@@ -1,15 +1,29 @@
 import { Link } from "react-router-dom";
-const Navbar = () => {
-    return ( 
-    <nav className="navbar">
-      <h1><Link className="navbar-label" to="/">Vehicle counting</Link></h1>
-      <div className="links">
-        <Link to="/">Home</Link>
-        <Link to="/">Add cam</Link>
-        <Link to="/">Statistic</Link>
-      </div>
-    </nav>
-    );
-}
- 
-export default Navbar;
+import { Navbar, Nav, Container } from 'react-bootstrap';
+
+const Navigation = () => {
+  return (
+    <Navbar bg="light" expand="lg" className="navbar-light">
+      <Container>
+        {/* Brand label set to the left */}
+        <Navbar.Brand>
+          <Link to="/" className="navbar-label" style={{ textDecoration: 'none', color: '#FF6347', fontWeight: 'bold'}}>
+              Vehicle Counting
+          </Link>
+        </Navbar.Brand>
+        {/* Toggler for responsive design */}
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        {/* Navigation links set to the right */}
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Nav className="ml-auto">
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/add-cam">Add Cam</Nav.Link>
+            <Nav.Link as={Link} to="/statistics">Statistics</Nav.Link>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
+};
+
+export default Navigation;
