@@ -1,4 +1,4 @@
-import Listcam from "./Listcam";
+import Listcam from "../components/Listcam";
 import VideoStream from "./video/VideoStream";
 import { useEffect, useState } from "react";
 const Mainbox = () => {
@@ -6,8 +6,7 @@ const Mainbox = () => {
     
     return ( 
         <div className="main-body">
-            <Listcam className='Listcam' setSelectedCam={setSelectedCam}/>
-            <VideoStream/>
+            
         </div>
     );
 }
