@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import DragLine from './DragLine';
+import test_img from '../test/test_img.jpg';
 
 const VideoStream = () => {
-    const [videoFeedUrl, setVideoFeedUrl] = useState(process.env.REACT_APP_TestStreaming);
-    const [showDragLine, setShowDragLine] = useState(false);
+    const [dragLines, setDragLines] = useState([]); // Sử dụng mảng để quản lý các DragLine
     const videoStreamRef = useRef(null);
 
     useEffect(() => {
@@ -26,21 +26,23 @@ const VideoStream = () => {
     }, []);
 
     const handleContextMenuAction = (action) => {
-      if (action === 'toggle-drag-line') {
-        setShowDragLine(!showDragLine);
-      }
-      // Hide the custom context menu
       const menu = document.querySelector(".right-click-menu");
-      menu.classList.remove("visible");
+      menu.classList.remove("visible"); // Hide the custom context menu
+      if (action === 'add-boundary') {
+        const newDragLine = { key: Date.now() }; // Tạo DragLine mới với unique key
+        setDragLines([...dragLines, newDragLine]); // Thêm DragLine mới vào mảng
+      }
     };
 
     return (
         <div className="video-stream-container" ref={videoStreamRef}>
-            <img src={videoFeedUrl} alt="Video Stream" style={{ width: 640, height: 480 }} />
-            {showDragLine && <DragLine parentRef={videoStreamRef}/>}
+            <img src={test_img} alt="Video Stream" style={{ width: 640, height: 480 }} />
+            {dragLines.map(line => (
+                <DragLine key={line.key} parentRef={videoStreamRef} /> // Sử dụng key cho mỗi DragLine
+            ))}
             <div className="right-click-menu">
               <ul>
-                <li onClick={() => handleContextMenuAction('toggle-drag-line')}>Toggle Drag Line</li>
+                <li onClick={() => handleContextMenuAction('add-boundary')}>Add Boundary</li>
               </ul>
             </div>
         </div>
