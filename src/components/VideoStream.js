@@ -37,7 +37,7 @@ const VideoStream = () => {
     return (
         <div className="video-stream-container" ref={videoStreamRef}>
             <img src={videoFeedUrl} alt="Video Stream" style={{ width: 640, height: 480 }} />
-            {showDragLine && <DragLine />}
+            {showDragLine && <DragLine parentRef={videoStreamRef}/>}
             <div className="right-click-menu">
               <ul>
                 <li onClick={() => handleContextMenuAction('toggle-drag-line')}>Toggle Drag Line</li>

@@ -34,19 +34,26 @@ body {
   background-color: #f0f0f0;
 }
 
-.dot {
-  height: 10px;
-  width: 10px;
+.overlay > .dot {
+  height: 20px;
+  width: 20px;
   position: absolute;
   background-color: #bbb;
-  border-radius: 4%;
+  border-radius: 100%;
 }
+
 
 .overlay {
   position: absolute;
   top: 0;
   left: 0;
-  height: 100%;
-  width: 100%;
+  width: fit-content;
+  block-size: fit-content;
   z-index: 10;
+}
+
+
+.video-stream-container {
+  width: fit-content;
+  block-size: fit-content;
 }

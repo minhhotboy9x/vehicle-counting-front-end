@@ -3,9 +3,10 @@ import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 
 
-const DragLine = () => {
-  const [controlledPositionL, setControlledPositionL] = useState({ x: 50, y: 50 });
-  const [controlledPositionR, setControlledPositionR] = useState({ x: 250, y: 50 });
+const DragLine = ({ parentRef }) => {
+  const [controlledPositionL, setControlledPositionL] = useState({ x: 50, y: 250 });
+  const [controlledPositionR, setControlledPositionR] = useState({ x: 250, y: 250 });
+
 
   const onControlledDragL = (e, position) => {
     setControlledPositionL({ x: position.x, y: position.y });
@@ -20,7 +21,7 @@ const DragLine = () => {
       x: prevPosition.x + position.deltaX,
       y: prevPosition.y + position.deltaY
     }));
-
+    // console.log(controlledPositionL, controlledPositionR);
     setControlledPositionR((prevPosition) => ({
       x: prevPosition.x + position.deltaX,
       y: prevPosition.y + position.deltaY
@@ -38,24 +39,24 @@ const DragLine = () => {
 
   return (
     <div className="overlay">
-      <Draggable position={controlledPositionL} onDrag={onControlledDragL}>
+      <Draggable position={controlledPositionL} onDrag={onControlledDragL} bounds={`.${parentRef.current.className}`}>
         <span className="dot" />
       </Draggable>
 
-      <Draggable position={controlledPositionR} onDrag={onControlledDragR}>
+      <Draggable position={controlledPositionR} onDrag={onControlledDragR} bounds={`.${parentRef.current.className}`}>
         <span className="dot" />
       </Draggable>
 
-      <Draggable position={halfwayPoint} onDrag={onControlledDragMidpoint} bounds="parent">
+      <Draggable position={halfwayPoint} onDrag={onControlledDragMidpoint} bounds={`.${parentRef.current.className}`}>
         <span className="dot" />
       </Draggable>
 
       <Line
         className="line"
-        x0={controlledPositionL.x + 2.5}
-        y0={controlledPositionL.y + 2.5}
-        x1={controlledPositionR.x + 2.5}
-        y1={controlledPositionR.y + 2.5}
+        x0={controlledPositionL.x + 10}
+        y0={controlledPositionL.y + 10}
+        x1={controlledPositionR.x + 10}
+        y1={controlledPositionR.y + 10}
       />
     </div>
   );
