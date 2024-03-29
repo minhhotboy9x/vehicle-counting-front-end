@@ -44,6 +44,14 @@ body {
   border-radius: 100%;
 }
 
+.overlay > .direct_dot {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  background-color: #0066CC;
+  border-radius: 100%;
+}
+
 
 .overlay {
   position: absolute;
@@ -56,7 +64,7 @@ body {
 
 
 .video-stream-container {
-  margin-top: 40px; /* Di chuyển phần tử xuống dưới */
+  margin-top: 10px; /* Di chuyển phần tử xuống dưới */
   margin-left: 100px; /* Di chuyển phần tử sang phải */
   width: fit-content;
   block-size: fit-content;

@@ -47,7 +47,7 @@ const VideoStream = () => {
 
     return (
         <Container className="video-stream-container" ref={videoStreamRef}>
-            <Image src={test_img} alt="Video Stream" style={{ width: 640, height: 480 }} rounded />
+            <Image src={test_img} alt="Video Stream" style={{ width: 800, height: 600 }} rounded />
             {dragLines.map(line => (
                 <DragLine key={line.key} parentRef={videoStreamRef} />
             ))}
