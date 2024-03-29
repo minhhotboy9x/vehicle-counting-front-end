@@ -4,8 +4,10 @@ import Draggable from 'react-draggable';
 
 
 const DragLine = ({ parentRef }) => {
-  const [controlledPositionL, setControlledPositionL] = useState({ x: 50, y: 250 });
-  const [controlledPositionR, setControlledPositionR] = useState({ x: 250, y: 300 });
+  const [controlledPositionL, setControlledPositionL] = useState({ x: parentRef.current.getBoundingClientRect().x + 50, 
+                                                                  y: parentRef.current.getBoundingClientRect().y+ 250 });
+  const [controlledPositionR, setControlledPositionR] = useState({ x: parentRef.current.getBoundingClientRect().x + 250, 
+                                                                  y: parentRef.current.getBoundingClientRect().y + 300 });
 
   const [middleBounds, setMiddleBounds] = useState({
     left: parentRef.current.getBoundingClientRect().x + Math.abs(controlledPositionR.x - controlledPositionL.x) / 2 , // Minimum X position
@@ -47,7 +49,7 @@ const DragLine = ({ parentRef }) => {
       x: prevPosition.x + position.deltaX,
       y: prevPosition.y + position.deltaY
     }));
-    console.log(parentRef.current);
+
     setControlledPositionR((prevPosition) => ({
       x: prevPosition.x + position.deltaX,
       y: prevPosition.y + position.deltaY
@@ -62,18 +64,30 @@ const DragLine = ({ parentRef }) => {
   };
 
   const halfwayPoint = getHalfwayPoint();
+  
+  const calculateAngle = () => {
+    const dx = controlledPositionR.x - controlledPositionL.x;
+    const dy = controlledPositionR.y - controlledPositionL.y;
+    const radians = Math.atan2(dy, dx);
+    const degrees = radians * (180 / Math.PI);
+    return degrees;
+  };
+
+  const onDragStop = () => {
+      console.log(controlledPositionL.x-parentRef.current.getBoundingClientRect().x, controlledPositionL.y - parentRef.current.getBoundingClientRect().y);
+  }
 
   return (
     <div className="overlay">
-      <Draggable position={controlledPositionL} onDrag={onControlledDragL} bounds={customBounds}>
+      <Draggable position={controlledPositionL} onDrag={onControlledDragL} onStop={onDragStop} bounds={customBounds}>
         <span className="dot" />
       </Draggable>
 
-      <Draggable position={controlledPositionR} onDrag={onControlledDragR} bounds={customBounds}>
+      <Draggable position={controlledPositionR} onDrag={onControlledDragR} onStop={onDragStop} bounds={customBounds}>
         <span className="dot" />
       </Draggable>
 
-      <Draggable position={halfwayPoint} onDrag={onControlledDragMidpoint} bounds={middleBounds}>
+      <Draggable position={halfwayPoint} onDrag={onControlledDragMidpoint} onStop={onDragStop} bounds={middleBounds}>
         <span className="dot" />
       </Draggable>
 
@@ -83,7 +97,7 @@ const DragLine = ({ parentRef }) => {
         y0={controlledPositionL.y + 7.5}
         x1={controlledPositionR.x + 7.5}
         y1={controlledPositionR.y + 7.5}
-        borderColor='red'
+        borderColor='#0066CC'
         borderWidth={"5px"}
       />
     </div>

@@ -42,7 +42,6 @@ body {
   position: absolute;
   background-color: #FFFFFF;
   border-radius: 100%;
-  
 }
 
 
@@ -57,6 +56,8 @@ body {
 
 
 .video-stream-container {
+  margin-top: 40px; /* Di chuyển phần tử xuống dưới */
+  margin-left: 100px; /* Di chuyển phần tử sang phải */
   width: fit-content;
   block-size: fit-content;
 }
