@@ -4,6 +4,12 @@ body {
   font-family: 'Quicksand', sans-serif;
 }
 
+.login-out{
+  display: grid;
+  min-height: 100vh; /* Set minimum height to 100vh */
+  place-items: center; /* Center both horizontally and vertically */
+}
+
 .right-click-menu {
   position: absolute;
   z-index: 1000;
@@ -42,6 +48,10 @@ body {
   position: absolute;
   background-color: #FFFFFF;
   border-radius: 100%;
+}
+
+.overlay > .dot:hover {
+  background-color: #CCCCCC;
 }
 
 .overlay > .direct_dot {
