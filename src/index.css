@@ -3,3 +3,79 @@
 body {
   font-family: 'Quicksand', sans-serif;
 }
+
+.login-out{
+  display: grid;
+  min-height: 100vh; /* Set minimum height to 100vh */
+  place-items: center; /* Center both horizontally and vertically */
+}
+
+.right-click-menu {
+  position: absolute;
+  z-index: 1000;
+  width: 150px;
+  background: white;
+  border-radius: 5px;
+  padding: 10px;
+  box-shadow: 0px 0px 10px #aaa;
+  display: none;
+}
+
+.right-click-menu.visible {
+  display: block;
+}
+
+.right-click-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.right-click-menu ul li {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.right-click-menu ul li:hover {
+  background-color: #f0f0f0;
+}
+
+
+
+.overlay > .dot {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  background-color: #FFFFFF;
+  border-radius: 100%;
+}
+
+.overlay > .dot:hover {
+  background-color: #CCCCCC;
+}
+
+.overlay > .direct_dot {
+  height: 20px;
+  width: 20px;
+  position: absolute;
+  background-color: #0066CC;
+  border-radius: 100%;
+}
+
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: fit-content;
+  block-size: fit-content;
+  z-index: 10;
+}
+
+
+.video-stream-container {
+  margin-top: 10px; /* Di chuyển phần tử xuống dưới */
+  margin-left: 100px; /* Di chuyển phần tử sang phải */
+  width: fit-content;
+  block-size: fit-content;
+}

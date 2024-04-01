@@ -1,34 +1,36 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import Form from 'react-bootstrap/Form';
 
 const Listcam = ({ setSelectedCam }) => {
-    const [currentCam, setCurrentCam] = useState('');
+    const [currentCam, setCurrentCam] = useState(1);
     const [listCam, setListCam] = useState([
-        {id:1, name: 'cam1'}, 
-        {id:2, name: 'cam2'}, 
-        {id:3, name: 'cam3'}])
+        {id:1, name: '1'}, 
+        {id:2, name: '2'}, 
+        {id:3, name: '3'}])
 
-    useEffect(() => {
-        console.log(currentCam);
-    }, [currentCam]);
+    // useEffect(() => {
+    //     console.log(currentCam);
+    // }, [currentCam]);
 
     const handleSelect = (e) => {
         const value = e.target.value; 
+        // console.log(value)
         setSelectedCam(value);
         setCurrentCam(value);
     }
-      
+
     return ( 
-        <div className="listcam">
-            <select value={currentCam}
+        <Form.Select aria-label="Default select example" 
+            style={{ maxWidth: '250px'}}
+            select value={currentCam}
             onChange={handleSelect}>
-                <option disabled value="">-- Select a camera --</option>
-                { 
-                listCam.map((item) => (
-                    <option key={item.id} value={item.name}>{item.name}</option>
+
+            <option disabled value="">-- Select a camera --</option>
+            {listCam.map((item) => (
+                    <option key={item.id} value={item.name}>Cam {item.name}</option>
                 ))}
-            </select>
-        </div>
+        </Form.Select>
     );
 }
  
