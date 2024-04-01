@@ -3,19 +3,19 @@ import { useEffect } from "react";
 import Form from 'react-bootstrap/Form';
 
 const Listcam = ({ setSelectedCam }) => {
-    const [currentCam, setCurrentCam] = useState('');
+    const [currentCam, setCurrentCam] = useState(1);
     const [listCam, setListCam] = useState([
         {id:1, name: '1'}, 
         {id:2, name: '2'}, 
         {id:3, name: '3'}])
 
-    useEffect(() => {
-        console.log(currentCam);
-    }, [currentCam]);
+    // useEffect(() => {
+    //     console.log(currentCam);
+    // }, [currentCam]);
 
     const handleSelect = (e) => {
         const value = e.target.value; 
-        // changeCamera(value);
+        // console.log(value)
         setSelectedCam(value);
         setCurrentCam(value);
     }
@@ -28,7 +28,7 @@ const Listcam = ({ setSelectedCam }) => {
 
             <option disabled value="">-- Select a camera --</option>
             {listCam.map((item) => (
-                    <option key={item.id} value={item.name}>{item.name}</option>
+                    <option key={item.id} value={item.name}>Cam {item.name}</option>
                 ))}
         </Form.Select>
     );

@@ -4,9 +4,15 @@ import test_img from '../test/test_img.jpg';
 import Image from 'react-bootstrap/Image';
 import { Container } from 'react-bootstrap';
 
-const VideoStream = () => {
+const VideoStream = ({selectedCam}) => {
     const [dragLines, setDragLines] = useState([]);
+    const [camId, setCamId] = useState(null); 
     const videoStreamRef = useRef(null);
+
+    useEffect(() => {
+        setCamId(selectedCam);
+        console.log(selectedCam)
+    }, [selectedCam]);
 
     useEffect(() => {
         const handleRightClick = (event) => {
@@ -47,7 +53,7 @@ const VideoStream = () => {
 
     return (
         <Container className="video-stream-container" ref={videoStreamRef}>
-            <Image src={test_img} alt="Video Stream" style={{ width: 800, height: 600 }} rounded />
+            <Image src={`${process.env.REACT_APP_BACKEND}/streaming/${camId}`} alt="Video Stream" style={{ width: 800, height: 600 }} rounded />
             {dragLines.map(line => (
                 <DragLine key={line.key} parentRef={videoStreamRef} />
             ))}
