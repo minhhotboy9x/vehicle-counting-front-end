@@ -2,39 +2,34 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 
-const DragLine = ({ parentRef }) => {
-  const [parentOffset, setParentOffset] = useState({ x: 0, y: 0 });
-
-  useEffect(() => {
-    const rect = parentRef.current.getBoundingClientRect();
-    setParentOffset({ x: rect.left, y: rect.top });
-  }, [parentRef]);
-
-  const [controlledPositionL, setControlledPositionL] = useState({ x: parentOffset.x + 150, y: parentOffset.y + 250 });
-  const [controlledPositionR, setControlledPositionR] = useState({ x: parentOffset.x + 250, y: parentOffset.y + 300 });
-
+const DragLine = ({ parentRef,x,y }) => {
+  const init_parent_rect = parentRef.current.getBoundingClientRect();
+  const [controlledPositionL, setControlledPositionL] = useState({ x: x + 150,
+                                                                   y: y + 250 });
+  const [controlledPositionR, setControlledPositionR] = useState({ x: x + 250, 
+                                                                   y: y + 300 });
   const [middleBounds, setMiddleBounds] = useState({
-    left: parentOffset.x + Math.abs(controlledPositionR.x - controlledPositionL.x) / 2,
-    top: parentOffset.y + Math.abs(controlledPositionR.y - controlledPositionL.y) / 2,
-    right: parentOffset.x + parentRef.current.offsetWidth - Math.abs(controlledPositionR.x - controlledPositionL.x) / 2 - 20,
-    bottom: parentOffset.y + parentRef.current.offsetHeight - Math.abs(controlledPositionR.y - controlledPositionL.y) / 2 - 20,
+    left: x + Math.abs(controlledPositionR.x - controlledPositionL.x) / 2,
+    top: y + Math.abs(controlledPositionR.y - controlledPositionL.y) / 2,
+    right: x + parentRef.current.offsetWidth - Math.abs(controlledPositionR.x - controlledPositionL.x) / 2 - 20,
+    bottom: y + parentRef.current.offsetHeight - Math.abs(controlledPositionR.y - controlledPositionL.y) / 2 - 20,
   });
 
   const customBounds = {
-    left: parentOffset.x,
-    top: parentOffset.y,
-    right: parentOffset.x + parentRef.current.offsetWidth - 20,
-    bottom: parentOffset.y + parentRef.current.offsetHeight - 20,
+    left: x,
+    top: y,
+    right: x + parentRef.current.offsetWidth - 20,
+    bottom: y + parentRef.current.offsetHeight - 20,
   };
 
   useEffect(() => {
     setMiddleBounds({
-      left: parentOffset.x + Math.abs(controlledPositionR.x - controlledPositionL.x) / 2,
-      top: parentOffset.y + Math.abs(controlledPositionR.y - controlledPositionL.y) / 2,
-      right: parentOffset.x + parentRef.current.offsetWidth - Math.abs(controlledPositionR.x - controlledPositionL.x) / 2 - 20,
-      bottom: parentOffset.y + parentRef.current.offsetHeight - Math.abs(controlledPositionR.y - controlledPositionL.y) / 2 - 20,
+      left: x + Math.abs(controlledPositionR.x - controlledPositionL.x) / 2,
+      top: y + Math.abs(controlledPositionR.y - controlledPositionL.y) / 2,
+      right: x + parentRef.current.offsetWidth - Math.abs(controlledPositionR.x - controlledPositionL.x) / 2 - 20,
+      bottom: y + parentRef.current.offsetHeight - Math.abs(controlledPositionR.y - controlledPositionL.y) / 2 - 20,
     })
-  }, [controlledPositionL, controlledPositionR, parentOffset, parentRef]);
+  }, [controlledPositionL, controlledPositionR, parentRef]);
 
   const onControlledDragL = (e, position) => {
     setControlledPositionL({ x: position.x, y: position.y });
@@ -87,7 +82,7 @@ const DragLine = ({ parentRef }) => {
   };
 
   const onDragStop = () => {
-    console.log(parentOffset.x, parentOffset.y);
+    // console.log(parentOffset.x, parentOffset.y);
   }
 
   return (
@@ -104,7 +99,7 @@ const DragLine = ({ parentRef }) => {
         <span className="dot" />
       </Draggable>
 
-      <Draggable position={directPoint}>
+      <Draggable disabled={true} position={directPoint}>
         <span className="direct_dot" />
       </Draggable>
 
