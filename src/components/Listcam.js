@@ -20,9 +20,11 @@ const Listcam = ({ setSelectedCam }) => {
         setCurrentCam(value);
     }
 
+    
+
     return ( 
         <Form.Select aria-label="Default select example" 
-            style={{ maxWidth: '250px'}}
+            style={{ maxWidth: '250px', marginLeft: '100px'}}
             select value={currentCam}
             onChange={handleSelect}>
 

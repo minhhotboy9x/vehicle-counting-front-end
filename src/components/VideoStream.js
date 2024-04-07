@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import DragLine from "./DragLine";
+import DragRoi from "./DragRoi";
 import test_img from "../test/test_img.jpg";
 import Image from "react-bootstrap/Image";
 import { Container } from "react-bootstrap";
@@ -7,13 +8,13 @@ import { Container } from "react-bootstrap";
 const VideoStream = ({ selectedCam }) => {
 
   const [dragLines, setDragLines] = useState([]);
+  const [dragRoi, setDragRoi] = useState([]);
   const [camId, setCamId] = useState(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const videoStreamRef = useRef(null);
 
   useEffect(() => {
     setCamId(selectedCam);
-    console.log(selectedCam);
   }, [selectedCam]);
 
   useEffect(() => {
@@ -35,23 +36,27 @@ const VideoStream = ({ selectedCam }) => {
     const videoStreamElement = videoStreamRef.current;
     videoStreamElement.addEventListener("contextmenu", handleRightClick);
 
-    // Add a global click event listener to close the context menu
     window.addEventListener("click", handleClick);
 
-    // Cleanup function
     return () => {
       videoStreamElement.removeEventListener("contextmenu", handleRightClick);
       window.removeEventListener("click", handleClick);
     };
   }, []);
-
+  
   const handleContextMenuAction = (action) => {
     if (action === "add-boundary") {
       const newDragLine = { key: Date.now() };
       setDragLines([...dragLines, newDragLine]);
     }
-    // No need to hide the menu here anymore since handleClick will take care of it
+
+    if (action === "add-roi") {
+      const newDragRoi = { key: Date.now() };
+      setDragRoi([...dragRoi, newDragRoi]);
+    }
+
   };
+  
 
   return (
     <Container
@@ -78,10 +83,21 @@ const VideoStream = ({ selectedCam }) => {
           y={position.y }
         />
       ))}
+      {dragRoi.map((line) => (
+        <DragRoi
+          key={line.key}
+          parentRef={videoStreamRef}
+          x={position.x }
+          y={position.y }
+        />
+      ))}
       <Container className="right-click-menu">
         <ul>
           <li onClick={() => handleContextMenuAction("add-boundary")}>
             Add Boundary
+          </li>
+          <li onClick={() => handleContextMenuAction("add-roi")}>
+            Add Roi
           </li>
         </ul>
       </Container>
