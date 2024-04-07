@@ -5,10 +5,11 @@ import AuthPage from './app/AuthPage';
 import Homepage from './app/Homepage';
 import Statistic from './app/Statistic';
 import Footer from './components/Footer';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
-    localStorage.getItem('isAuthenticated') === 'true'
+    'true'
   );
 
   useEffect(() => {
@@ -31,8 +32,11 @@ function App() {
   return (
     <Router>
       <div className="app">
-        {isAuthenticated && <Navigation />}
-        
+        {isAuthenticated &&
+          <GoogleOAuthProvider clientId="745875377237-pqqjaukdkq4tjpta8rqobooi4fk8mfg8.apps.googleusercontent.com" 
+          ><Navigation /></GoogleOAuthProvider>
+        }
+
         <Switch>
           <Route exact path="/">
             {isAuthenticated ? <Redirect to="/homepage" /> : <AuthPage onLogin={handleLogin} />}
