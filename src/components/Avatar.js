@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
 
 export function Avatar({ image, name, email, setUserSession }) {
     const logout = () => {
