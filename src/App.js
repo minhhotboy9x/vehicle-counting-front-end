@@ -20,13 +20,13 @@ function App() {
   }, []);
 
   const handleLogin = () => {
-    setIsAuthenticated(true);
+    setIsAuthenticated('true');
     localStorage.setItem('isAuthenticated', 'true');
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
-    localStorage.setItem('isAuthenticated', 'false');
+    localStorage.setItem('isAuthenticated', false);
   };
 
   return (
