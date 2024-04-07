@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 
-const DragLine = ({ parentRef,x,y }) => {
+const DragLine = ({ parentRef, x, y }) => {
   const init_parent_rect = parentRef.current.getBoundingClientRect();
   const [controlledPositionL, setControlledPositionL] = useState({ x: x + 150,
                                                                    y: y + 250 });
@@ -33,6 +33,7 @@ const DragLine = ({ parentRef,x,y }) => {
 
   const onControlledDragL = (e, position) => {
     setControlledPositionL({ x: position.x, y: position.y });
+    
   };
 
   const onControlledDragR = (e, position) => {
@@ -82,8 +83,13 @@ const DragLine = ({ parentRef,x,y }) => {
   };
 
   const onDragStop = () => {
-    // console.log(parentOffset.x, parentOffset.y);
+   
   }
+
+  const handleDragLineClick = (event) => {
+    const clickedElement = event.target;
+    console.log("clicked dragline")
+  };
 
   return (
     <div className="overlay">
@@ -100,7 +106,7 @@ const DragLine = ({ parentRef,x,y }) => {
       </Draggable>
 
       <Draggable disabled={true} position={directPoint}>
-        <span className="direct_dot" />
+        <span className="direct_dot" onClick={handleDragLineClick}/>
       </Draggable>
 
       <Line
