@@ -2,12 +2,8 @@ import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
 import { decodeJwt } from "jose";
 import axios from "axios";
 import { Icons } from "./Icons";
-import { useEffect } from "react";
 
 const Auth = ({setUserSession}) => {
-    useEffect(() => {
-        setUserSession(JSON.parse(localStorage.getItem("userSession")));
-    }, []);
     const login = useGoogleLogin({
         onSuccess: async (tokenResponse) => {
             const payload = await axios
@@ -46,13 +42,11 @@ const Auth = ({setUserSession}) => {
             <div className="google">
                 <GoogleLogin
                     onSuccess={(credentialResponse) => {
-                        // console.log(credentialResponse);
                         const { credential } = credentialResponse;
                         const payload = credential
                             ? decodeJwt(credential)
                             : undefined;
                         if (payload) {
-                            // console.log(payload);
                             const userSess = {
                                 googleId: payload.sub,
                                 email: payload.email,
