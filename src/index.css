@@ -82,3 +82,39 @@ body {
   width: fit-content;
   block-size: fit-content;
 }
+
+.authbtn{
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  margin: 0px 2px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  border-color: #000000;
+  border-width: 1px;
+}
+
+.google{
+  visibility: hidden;
+}
+
+.googleicon{
+  height: 30px;
+  width: 30px;
+}
+
+.dropmenutoggle{
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 7%;
+  height: fit-content;
+  width: fit-content;
+  border:none;
+  overflow: none;
+}
