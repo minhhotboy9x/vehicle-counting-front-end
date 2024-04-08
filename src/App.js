@@ -4,6 +4,7 @@ import Navigation from './components/Navbar';
 import Homepage from './app/Homepage';
 import Statistic from './app/Statistic';
 import Footer from './components/Footer';
+import AuthPage from './app/AuthPage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
@@ -14,24 +15,28 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <GoogleOAuthProvider clientId="745875377237-pqqjaukdkq4tjpta8rqobooi4fk8mfg8.apps.googleusercontent.com">
+        {userSession && <GoogleOAuthProvider clientId="745875377237-pqqjaukdkq4tjpta8rqobooi4fk8mfg8.apps.googleusercontent.com">
           <Navigation userSession={userSession} setUserSession={setUserSession} />
         </GoogleOAuthProvider>
-
+        }
         <Switch>
           <Route exact path="/">
-            <Redirect to="/homepage" />
+            {userSession ? <Redirect to="/homepage" /> :
+              <GoogleOAuthProvider clientId="745875377237-pqqjaukdkq4tjpta8rqobooi4fk8mfg8.apps.googleusercontent.com">
+                <AuthPage setUserSession={setUserSession} />
+              </GoogleOAuthProvider>
+            }
           </Route>
-
           <Route exact path="/homepage">
-            <Homepage />
+            {userSession ? <Homepage /> : <Redirect to="/" />}
           </Route>
 
           <Route exact path="/statistic">
-            <Statistic />
+            {userSession ? <Statistic /> : <Redirect to="/" />}
           </Route>
         </Switch>
-        <Footer />
+
+        {userSession && <Footer />}
       </div>
     </Router>
   );

@@ -1,7 +1,7 @@
-import { GoogleLogin, useGoogleLogin } from "@react-oauth/google";
-import { decodeJwt } from "jose";
+import {useGoogleLogin} from "@react-oauth/google";
 import axios from "axios";
 import { Icons } from "./Icons";
+import Button from 'react-bootstrap/Button';
 
 const Auth = ({setUserSession}) => {
     const login = useGoogleLogin({
@@ -24,7 +24,6 @@ const Auth = ({setUserSession}) => {
                     email: payload.email,
                     profileImgUrl: payload.picture,
                     username: payload.name,
-                    isNotifi: 0,
                 };
                 localStorage.setItem("userSession", JSON.stringify(userSess));
                 setUserSession(userSess);
@@ -37,41 +36,10 @@ const Auth = ({setUserSession}) => {
         flow: "implicit",
     });
     return (
-        <div onClick={() => login()} className="authbtn">
+        <Button variant="dark" className="loginbutton" onClick={() =>login()}>
             <Icons.google />
-            <div className="google">
-                <GoogleLogin
-                    onSuccess={(credentialResponse) => {
-                        const { credential } = credentialResponse;
-                        const payload = credential
-                            ? decodeJwt(credential)
-                            : undefined;
-                        if (payload) {
-                            const userSess = {
-                                googleId: payload.sub,
-                                email: payload.email,
-                                profileImgUrl: payload.picture,
-                                username: payload.name,
-                            };
-                            localStorage.setItem(
-                                "userSession",
-                                JSON.stringify(userSess)
-                            );
-                            setUserSession(userSess);
-
-                        }
-                        window.location.reload();
-                    }}
-                    onError={() => {
-                        console.log("Login Failed");
-                    }}
-                    useOneTap
-                    theme="outline"
-                    type="icon"
-                    shape="circle"
-                />
-            </div>
-        </div>
+            Login with Google Account
+        </Button>
     )
 }
 export default Auth
