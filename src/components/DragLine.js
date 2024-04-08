@@ -116,7 +116,7 @@ const DragLine = ({ parentRef, x, y }) => {
         x1={controlledPositionR.x + 7.5}
         y1={controlledPositionR.y + 7.5}
         borderColor='#0066CC'
-        borderWidth={"5px"}
+        borderWidth={5}
       />
     </div>
   );

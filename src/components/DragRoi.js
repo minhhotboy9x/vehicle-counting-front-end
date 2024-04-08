@@ -63,15 +63,16 @@ const DragRoi = ({ parentRef, x, y }) => {
             return
         let lines = [];
         for (let i = 0; i < 4; i++) {
-            let j = (i+1)%4;
+            let j = (i+1) % 4;
             lines.push(<Line
                 className="line"
-                x0={controlledPositions[i].x + 7.5}
-                y0={controlledPositions[i].y + 7.5}
-                x1={controlledPositions[j].x + 7.5}
-                y1={controlledPositions[j].y + 7.5}
+                key = {i} 
+                x0 = {controlledPositions[i].x + 7.5}
+                y0 = {controlledPositions[i].y + 7.5}
+                x1 = {controlledPositions[j].x + 7.5}
+                y1 = {controlledPositions[j].y + 7.5}
                 borderColor='#FF0000'
-                borderWidth={"5px"}
+                borderWidth={5}
             />)
         }
         return lines
