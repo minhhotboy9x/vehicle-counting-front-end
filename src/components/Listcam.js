@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useEffect } from "react";
 import Form from 'react-bootstrap/Form';
 
 const Listcam = ({ setSelectedCam }) => {
@@ -25,7 +24,7 @@ const Listcam = ({ setSelectedCam }) => {
     return ( 
         <Form.Select aria-label="Default select example" 
             style={{ maxWidth: '250px', marginLeft: '100px'}}
-            select value={currentCam}
+            value={currentCam}
             onChange={handleSelect}>
 
             <option disabled value="">-- Select a camera --</option>

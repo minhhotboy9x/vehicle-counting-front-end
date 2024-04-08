@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from 'react';
+import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Form from 'react-bootstrap/Form';
 
 export function Avatar({ image, name, email, setUserSession }) {
     const logout = () => {
@@ -23,7 +22,6 @@ export function Avatar({ image, name, email, setUserSession }) {
                 width={40}
                 height={40}
                 style={{borderRadius:"100%"}}
-                priority={true}
             />
         </a>
     ));
