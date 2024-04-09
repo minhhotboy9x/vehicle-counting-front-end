@@ -9,7 +9,7 @@ body {
   min-height: 100vh; /* Set minimum height to 100vh */
   place-items: center; /* Center both horizontally and vertically */
 }
-
+/* 
 .right-click-menu {
   position: absolute;
   z-index: 1000;
@@ -38,7 +38,7 @@ body {
 
 .right-click-menu ul li:hover {
   background-color: #f0f0f0;
-}
+} */
 
 
 
