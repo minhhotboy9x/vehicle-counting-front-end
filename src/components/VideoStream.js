@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import DragLine from "./DragLine";
 import DragRoi from "./DragRoi";
 import test_img from "../test/test_img.jpg";
+import config from "../config/config";
 import Image from "react-bootstrap/Image";
 import ContextMenu from "./ContextMenu";
 import { Container } from "react-bootstrap";
@@ -58,7 +59,7 @@ const VideoStream = ({ selectedCam }) => {
           },
       ]}>
         <Image
-          src={test_img}
+          src={test}
           alt="Video Stream"
           style={{ width: 800, height: 600 }}
           rounded
