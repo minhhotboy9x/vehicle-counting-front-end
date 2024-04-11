@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
+import ContextMenu from './ContextMenu'
 
-
-const DragRoi = ({ parentRef, x, y }) => {
+const DragRoi = ({id, parentRef, x, y }) => {
     const [controlledPositions, setControlledPositions] = useState([])
+    const [dotStyle, setDotStyle] = useState("dot_lock")
+    const [lock, setLock] = useState(false);   
 
     const reSort = (arrayPositions) => {
         if (arrayPositions.length === 0)
@@ -28,6 +30,10 @@ const DragRoi = ({ parentRef, x, y }) => {
     };
 
     useEffect(() => {
+        setDotStyle(lock ? 'dot_lock' : 'dot');
+      }, [lock]);
+    
+    useEffect(() => {
         let newPositions = [];
         for (let i = 0; i < 4; i++) {
             const newPos = {y: y + parseInt(i / 2) * 50 + 50, x: x + (i % 2) * 50 + 50 };
@@ -35,7 +41,7 @@ const DragRoi = ({ parentRef, x, y }) => {
         }
         const sortedPositions = reSort(newPositions)
         setControlledPositions(sortedPositions);
-    }, []);
+    }, [x, y]);
 
     // useEffect(() => {reSort()}, [controlledPositions])
 
@@ -59,7 +65,7 @@ const DragRoi = ({ parentRef, x, y }) => {
         // console.log(parentOffset.x, parentOffset.y);
     }
     const renderEdges = () => {
-        if (controlledPositions.length==0)
+        if (controlledPositions.length===0)
             return
         let lines = [];
         for (let i = 0; i < 4; i++) {
@@ -77,16 +83,36 @@ const DragRoi = ({ parentRef, x, y }) => {
         }
         return lines
     }
+
+    const itemClickHandler = (item) => {
+        if (item.caption==="Unlock") {
+          setLock(false);
+        }
+        if (item.caption==="Lock") {
+          setLock(true);
+        }
+    }
+
     return ( 
     <div className="overlay">
-        {controlledPositions.map((position, index) => (
-            <Draggable key={index} position={position} onDrag={(e, draggableData) => onControlledDrag(index, draggableData)} onStop={onDragStop} bounds={customBounds}>
-                <span className="dot" />
-            </Draggable>
-        ))}
-
-        {renderEdges()}
-
+        <ContextMenu 
+            id={id} 
+            onItemClicked={itemClickHandler}
+            items={[
+                {
+                id: "1",
+                caption: lock?"Unlock":"Lock",
+                },
+            ]}>
+                {controlledPositions.map((position, index) => (
+                
+                    <Draggable key={index} disabled={lock} position={position} onDrag={(e, draggableData) => onControlledDrag(index, draggableData)} onStop={onDragStop} bounds={customBounds}>
+                        <span className={dotStyle}/>
+                    </Draggable>
+                        
+                ))}
+                {renderEdges()}        
+        </ContextMenu>
     </div> 
     );
 }

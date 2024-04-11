@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
+import ContextMenu from './ContextMenu'
 
-const DragLine = ({ parentRef, x, y }) => {
-  const init_parent_rect = parentRef.current.getBoundingClientRect();
+const DragLine = ({id, parentRef, x, y }) => {
   const [controlledPositionL, setControlledPositionL] = useState({ x: x + 150,
                                                                    y: y + 250 });
   const [controlledPositionR, setControlledPositionR] = useState({ x: x + 250, 
                                                                    y: y + 300 });
+  
+  const [dotStyle, setDotStyle] = useState("dot_lock")
+
+  const [lock, setLock] = useState(false);
+
   const [middleBounds, setMiddleBounds] = useState({
     left: x + Math.abs(controlledPositionR.x - controlledPositionL.x) / 2,
     top: y + Math.abs(controlledPositionR.y - controlledPositionL.y) / 2,
@@ -29,11 +34,14 @@ const DragLine = ({ parentRef, x, y }) => {
       right: x + parentRef.current.offsetWidth - Math.abs(controlledPositionR.x - controlledPositionL.x) / 2 - 20,
       bottom: y + parentRef.current.offsetHeight - Math.abs(controlledPositionR.y - controlledPositionL.y) / 2 - 20,
     })
-  }, [controlledPositionL, controlledPositionR, parentRef]);
+  }, [x, y, controlledPositionL, controlledPositionR, parentRef]);
+
+  useEffect(() => {
+    setDotStyle(lock ? 'dot_lock' : 'dot');
+  }, [lock]);
 
   const onControlledDragL = (e, position) => {
     setControlledPositionL({ x: position.x, y: position.y });
-    
   };
 
   const onControlledDragR = (e, position) => {
@@ -74,50 +82,60 @@ const DragLine = ({ parentRef, x, y }) => {
   const halfwayPoint = getHalfwayPoint();
   const directPoint = getDirectPoint();
 
-  const calculateAngle = () => {
-    const dx = controlledPositionR.x - controlledPositionL.x;
-    const dy = controlledPositionR.y - controlledPositionL.y;
-    const radians = Math.atan2(dy, dx);
-    const degrees = radians * (180 / Math.PI);
-    return degrees;
-  };
-
   const onDragStop = () => {
    
   }
 
+  const itemClickHandler = (item) => {
+    if (item.caption==="Unlock") {
+      setLock(false);
+    }
+    if (item.caption==="Lock") {
+      setLock(true);
+    }
+  }
+
   const handleDragLineClick = (event) => {
-    const clickedElement = event.target;
     console.log("clicked dragline")
   };
 
   return (
     <div className="overlay">
-      <Draggable position={controlledPositionL} onDrag={onControlledDragL} onStop={onDragStop} bounds={customBounds}>
-        <span className="dot" />
-      </Draggable>
+      <ContextMenu 
+        id={id} 
+        onItemClicked={itemClickHandler}
+        items={[
+          {
+            id: "1",
+            caption: lock?"Unlock":"Lock",
+          },
+        ]}>
+        <Draggable disabled={lock} position={controlledPositionL} onDrag={onControlledDragL} onStop={onDragStop} bounds={customBounds}>
+          <span className={dotStyle} />
+        </Draggable>
 
-      <Draggable position={controlledPositionR} onDrag={onControlledDragR} onStop={onDragStop} bounds={customBounds}>
-        <span className="dot" />
-      </Draggable>
+        <Draggable disabled={lock} position={controlledPositionR} onDrag={onControlledDragR} onStop={onDragStop} bounds={customBounds}>
+          <span className={dotStyle} />
+        </Draggable>
 
-      <Draggable position={halfwayPoint} onDrag={onControlledDragMidpoint} onStop={onDragStop} bounds={middleBounds}>
-        <span className="dot" />
-      </Draggable>
+        <Draggable disabled={lock} position={halfwayPoint} onDrag={onControlledDragMidpoint} onStop={onDragStop} bounds={middleBounds}>
+          <span className={dotStyle} />
+        </Draggable>
 
-      <Draggable disabled={true} position={directPoint}>
-        <span className="direct_dot" onClick={handleDragLineClick}/>
-      </Draggable>
+        <Draggable disabled={true} position={directPoint}>
+          <span className="direct_dot" onClick={handleDragLineClick}/>
+        </Draggable>
 
-      <Line
-        className="line"
-        x0={controlledPositionL.x + 7.5}
-        y0={controlledPositionL.y + 7.5}
-        x1={controlledPositionR.x + 7.5}
-        y1={controlledPositionR.y + 7.5}
-        borderColor='#0066CC'
-        borderWidth={5}
-      />
+        <Line
+          className="line"
+          x0={controlledPositionL.x + 7.5}
+          y0={controlledPositionL.y + 7.5}
+          x1={controlledPositionR.x + 7.5}
+          y1={controlledPositionR.y + 7.5}
+          borderColor='#0066CC'
+          borderWidth={5}
+        />
+      </ContextMenu>
     </div>
   );
 };
