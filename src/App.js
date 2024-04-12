@@ -6,6 +6,7 @@ import Statistic from './app/Statistic';
 import Footer from './components/Footer';
 import AuthPage from './app/AuthPage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [userSession, setUserSession] = useState();

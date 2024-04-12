@@ -9,7 +9,10 @@ const Homepage = () => {
     return ( 
         <div className="home">
             <Listcam className='Listcam' setSelectedCam={setSelectedCam}/>
-            <VideoStream selectedCam={selectedCam}/>
+            <div className="video-form">
+                <VideoStream selectedCam={selectedCam}/>
+                {/* Phần tử khác bạn muốn chèn vào đây */}
+            </div>
         </div>
     );
 }

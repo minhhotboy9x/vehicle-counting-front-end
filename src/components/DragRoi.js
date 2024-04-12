@@ -3,7 +3,7 @@ import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 import ContextMenu from './ContextMenu'
 
-const DragRoi = ({id, parentRef, x, y }) => {
+const DragRoi = ({id, parentRef, x, y, camId }) => {
     const [controlledPositions, setControlledPositions] = useState([])
     const [dotStyle, setDotStyle] = useState("dot_lock")
     const [lock, setLock] = useState(false);   
@@ -29,6 +29,10 @@ const DragRoi = ({id, parentRef, x, y }) => {
         return sortedArray
     };
 
+    const getPosOnVid = (Point) => {
+        return ({x: Point.x - x, y: Point.y - y});
+    }
+    
     useEffect(() => {
         setDotStyle(lock ? 'dot_lock' : 'dot');
       }, [lock]);

@@ -53,8 +53,8 @@ body {
 
 
 .video-stream-container {
-  margin-top: 10px; /* Di chuyển phần tử xuống dưới */
-  margin-left: 100px; /* Di chuyển phần tử sang phải */
+  margin-top: 10px;
+  margin-left: 100px; 
   width: fit-content;
   block-size: fit-content;
 }

@@ -5,7 +5,6 @@ import test_img from "../test/test_img.jpg";
 import config from "../config/config";
 import Image from "react-bootstrap/Image";
 import ContextMenu from "./ContextMenu";
-import { Container } from "react-bootstrap";
 
 const VideoStream = ({ selectedCam }) => {
 
@@ -23,20 +22,20 @@ const VideoStream = ({ selectedCam }) => {
   const itemClickHandler = (item) =>{
     if (item.id === "1") {
       // add boundary
-      const newDragLine = { key: Date.now(), id: `${Date.now()}` };
+      const newDragLine = { key: Date.now().toString(), id: `${Date.now().toString()}` };
       setDragLines([...dragLines, newDragLine]);
     }
 
     if (item.id === "2") {
       // add roi
-      const newDragRois = { key: Date.now(), id: `${Date.now()}` };
+      const newDragRois = { key: Date.now().toString(), id: `${Date.now().toString()}` };
       setDragRois([...dragRois, newDragRois]);
     }
 
   }
 
   return (
-    <Container
+    <div
       className="video-stream-container"
       ref={videoStreamRef}
       onLoad={() => {
@@ -59,7 +58,7 @@ const VideoStream = ({ selectedCam }) => {
           },
       ]}>
         <Image
-          src={test}
+          src={test_img}
           alt="Video Stream"
           style={{ width: 800, height: 600 }}
           rounded
@@ -73,6 +72,7 @@ const VideoStream = ({ selectedCam }) => {
             parentRef={videoStreamRef}
             x={position.x}
             y={position.y}
+            camId={camId}
           />
         ))}
         {dragRois.map((roi) => (
@@ -82,10 +82,11 @@ const VideoStream = ({ selectedCam }) => {
             parentRef={videoStreamRef}
             x={position.x }
             y={position.y }
+            camId={camId}
           />
         ))}
       
-    </Container>
+    </div>
   );
 };
 

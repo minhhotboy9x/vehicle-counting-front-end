@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 import ContextMenu from './ContextMenu'
+import { updateInsertBoundary } from '../api/DragLineApi';
 
-const DragLine = ({id, parentRef, x, y }) => {
+
+const DragLine = ({id, parentRef, x, y, camId }) => {
   const [controlledPositionL, setControlledPositionL] = useState({ x: x + 150,
                                                                    y: y + 250 });
   const [controlledPositionR, setControlledPositionR] = useState({ x: x + 250, 
@@ -20,6 +22,10 @@ const DragLine = ({id, parentRef, x, y }) => {
     bottom: y + parentRef.current.offsetHeight - Math.abs(controlledPositionR.y - controlledPositionL.y) / 2 - 20,
   });
 
+  const getPosOnVid = (Point) => {
+    return ({x: Point.x - x, y: Point.y - y});
+  }
+  
   const customBounds = {
     left: x,
     top: y,
@@ -83,7 +89,7 @@ const DragLine = ({id, parentRef, x, y }) => {
   const directPoint = getDirectPoint();
 
   const onDragStop = () => {
-   
+    // console.log(id, getPosOnVid(controlledPositionL), getPosOnVid(controlledPositionR), camId);
   }
 
   const itemClickHandler = (item) => {
@@ -92,6 +98,13 @@ const DragLine = ({id, parentRef, x, y }) => {
     }
     if (item.caption==="Lock") {
       setLock(true);
+      updateInsertBoundary({
+        'id': id,
+        'camId': camId,
+        'pointL': getPosOnVid(controlledPositionL),
+        'pointR': getPosOnVid(controlledPositionR),
+        'pointDirect': getPosOnVid(directPoint)
+      })
     }
   }
 
