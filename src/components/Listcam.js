@@ -2,7 +2,7 @@ import { useState } from "react";
 import Form from 'react-bootstrap/Form';
 
 const Listcam = ({ setSelectedCam }) => {
-    const [currentCam, setCurrentCam] = useState(1);
+    const [currentCam, setCurrentCam] = useState('1');
     const [listCam, setListCam] = useState([
         {id:1, name: '1'}, 
         {id:2, name: '2'}, 

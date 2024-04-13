@@ -15,6 +15,7 @@ const VideoStream = ({ selectedCam }) => {
   const videoStreamRef = useRef(null);
 
   useEffect(() => {
+    // console.log(`selectedcam: ${selectedCam} ${typeof selectedCam}`);
     setCamId(selectedCam);
     const fetchData = async () => {
         setCamId(selectedCam);

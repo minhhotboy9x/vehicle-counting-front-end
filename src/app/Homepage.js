@@ -4,7 +4,7 @@ import VideoStream from "../components/VideoStream";
 import { useState, useEffect } from "react";
 
 const Homepage = () => {
-    const [selectedCam, setSelectedCam] = useState(1);
+    const [selectedCam, setSelectedCam] = useState('1');
 
     return ( 
         <div className="home">

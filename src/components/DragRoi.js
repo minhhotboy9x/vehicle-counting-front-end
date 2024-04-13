@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 import ContextMenu from './ContextMenu'
+import { updateInsertRoi } from '../api/DragRoiApi';
 
 const DragRoi = ({id, parentRef, x, y, camId, initLock }) => {
     const [controlledPositions, setControlledPositions] = useState([]);
@@ -47,8 +48,6 @@ const DragRoi = ({id, parentRef, x, y, camId, initLock }) => {
         setControlledPositions(sortedPositions);
     }, [x, y]);
 
-    // useEffect(() => {reSort()}, [controlledPositions])
-
     
 
     const customBounds = {
@@ -88,12 +87,18 @@ const DragRoi = ({id, parentRef, x, y, camId, initLock }) => {
         return lines
     }
 
-    const itemClickHandler = (item) => {
+    const itemClickHandler = async (item) => {
         if (item.caption==="Unlock") {
           setLock(false);
         }
         if (item.caption==="Lock") {
           setLock(true);
+          const res = await updateInsertRoi({
+            'id': id,
+            'camId': camId,
+            'points': controlledPositions.map((position) => (getPosOnVid(position))),
+          });
+          console.log(res);
         }
     }
 
