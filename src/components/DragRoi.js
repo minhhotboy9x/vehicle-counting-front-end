@@ -3,9 +3,9 @@ import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 import ContextMenu from './ContextMenu'
 
-const DragRoi = ({id, parentRef, x, y, camId }) => {
-    const [controlledPositions, setControlledPositions] = useState([])
-    const [dotStyle, setDotStyle] = useState("dot_lock")
+const DragRoi = ({id, parentRef, x, y, camId, initLock }) => {
+    const [controlledPositions, setControlledPositions] = useState([]);
+    const [dotStyle, setDotStyle] = useState("dot_lock");
     const [lock, setLock] = useState(false);   
 
     const reSort = (arrayPositions) => {
@@ -108,6 +108,7 @@ const DragRoi = ({id, parentRef, x, y, camId }) => {
                 caption: lock?"Unlock":"Lock",
                 },
             ]}>
+
                 {controlledPositions.map((position, index) => (
                 
                     <Draggable key={index} disabled={lock} position={position} onDrag={(e, draggableData) => onControlledDrag(index, draggableData)} onStop={onDragStop} bounds={customBounds}>

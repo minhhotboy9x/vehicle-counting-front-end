@@ -2,18 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 import ContextMenu from './ContextMenu'
-import { updateInsertBoundary } from '../api/DragLineApi';
+import { deleteBoundary, updateInsertBoundary } from '../api/DragLineApi';
 
 
-const DragLine = ({id, parentRef, x, y, camId }) => {
-  const [controlledPositionL, setControlledPositionL] = useState({ x: x + 150,
-                                                                   y: y + 250 });
-  const [controlledPositionR, setControlledPositionR] = useState({ x: x + 250, 
-                                                                   y: y + 300 });
+const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, initLock }) => {
+  const [controlledPositionL, setControlledPositionL] = useState({ x: x + pointL.x,
+                                                                   y: y + pointL.y });
+  const [controlledPositionR, setControlledPositionR] = useState({ x: x + pointR.x, 
+                                                                   y: y + pointR.y });
   
   const [dotStyle, setDotStyle] = useState("dot_lock")
 
-  const [lock, setLock] = useState(false);
+  const [lock, setLock] = useState(initLock);
 
   const [middleBounds, setMiddleBounds] = useState({
     left: x + Math.abs(controlledPositionR.x - controlledPositionL.x) / 2,
@@ -92,20 +92,32 @@ const DragLine = ({id, parentRef, x, y, camId }) => {
     // console.log(id, getPosOnVid(controlledPositionL), getPosOnVid(controlledPositionR), camId);
   }
 
-  const itemClickHandler = (item) => {
+  const itemClickHandler = async (item) => {
     if (item.caption==="Unlock") {
       setLock(false);
     }
+
     if (item.caption==="Lock") {
       setLock(true);
-      updateInsertBoundary({
+      const res = await updateInsertBoundary({
         'id': id,
         'camId': camId,
         'pointL': getPosOnVid(controlledPositionL),
         'pointR': getPosOnVid(controlledPositionR),
         'pointDirect': getPosOnVid(directPoint)
-      })
+      });
+      console.log(res);
     }
+
+    if (item.caption==="Delete") {
+      const res = await deleteBoundary({
+        "id": id, 
+        "camId": camId,
+      })
+      console.log(res);
+      deleteDragLine(id);
+    }
+
   }
 
   const handleDragLineClick = (event) => {
@@ -122,6 +134,11 @@ const DragLine = ({id, parentRef, x, y, camId }) => {
             id: "1",
             caption: lock?"Unlock":"Lock",
           },
+          {
+            id: "2",
+            caption: "Delete",
+          },
+
         ]}>
         <Draggable disabled={lock} position={controlledPositionL} onDrag={onControlledDragL} onStop={onDragStop} bounds={customBounds}>
           <span className={dotStyle} />
