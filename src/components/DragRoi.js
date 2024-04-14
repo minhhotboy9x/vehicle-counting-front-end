@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 import ContextMenu from './ContextMenu'
-import { updateInsertRoi } from '../api/DragRoiApi';
+import { deleteRoi, updateInsertRoi } from '../api/DragRoiApi';
 
-const DragRoi = ({id, parentRef, x, y, camId, initLock }) => {
+const DragRoi = ({id, parentRef, x, y, points, camId, deleteDragRoi, initLock }) => {
     const [controlledPositions, setControlledPositions] = useState([]);
     const [dotStyle, setDotStyle] = useState("dot_lock");
-    const [lock, setLock] = useState(false);   
+    const [lock, setLock] = useState(initLock);   
 
     const reSort = (arrayPositions) => {
         if (arrayPositions.length === 0)
@@ -39,14 +39,11 @@ const DragRoi = ({id, parentRef, x, y, camId, initLock }) => {
       }, [lock]);
     
     useEffect(() => {
-        let newPositions = [];
-        for (let i = 0; i < 4; i++) {
-            const newPos = {y: y + parseInt(i / 2) * 50 + 50, x: x + (i % 2) * 50 + 50 };
-            newPositions.push(newPos);
-        }
-        const sortedPositions = reSort(newPositions)
+        const sortedPositions = reSort(points.map((point) => (
+            {x: x + point.x, y: y + point.y}
+        )));
         setControlledPositions(sortedPositions);
-    }, [x, y]);
+    }, [x, y, points]);
 
     
 
@@ -89,16 +86,25 @@ const DragRoi = ({id, parentRef, x, y, camId, initLock }) => {
 
     const itemClickHandler = async (item) => {
         if (item.caption==="Unlock") {
-          setLock(false);
+            setLock(false);
         }
         if (item.caption==="Lock") {
-          setLock(true);
-          const res = await updateInsertRoi({
+            setLock(true);
+            const res = await updateInsertRoi({
             'id': id,
             'camId': camId,
             'points': controlledPositions.map((position) => (getPosOnVid(position))),
-          });
-          console.log(res);
+            });
+            console.log(res.message);
+        }
+        if (item.caption==="Delete") {
+            const res = await deleteRoi({
+                'id': id,
+                'camId': camId,
+                'points': controlledPositions.map((position) => (getPosOnVid(position))),
+            });
+            console.log(res.message);
+            deleteDragRoi(id);
         }
     }
 
@@ -111,6 +117,10 @@ const DragRoi = ({id, parentRef, x, y, camId, initLock }) => {
                 {
                 id: "1",
                 caption: lock?"Unlock":"Lock",
+                },
+                {
+                    id: "2",
+                    caption: "Delete",
                 },
             ]}>
 

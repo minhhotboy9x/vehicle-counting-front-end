@@ -106,7 +106,7 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
         'pointR': getPosOnVid(controlledPositionR),
         'pointDirect': getPosOnVid(directPoint)
       });
-      console.log(res);
+      console.log(res.message);
     }
 
     if (item.caption==="Delete") {
@@ -114,7 +114,7 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
         "id": id, 
         "camId": camId,
       })
-      console.log(res);
+      console.log(res.message);
       deleteDragLine(id);
     }
 

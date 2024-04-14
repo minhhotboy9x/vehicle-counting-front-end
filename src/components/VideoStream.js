@@ -5,6 +5,7 @@ import test_img from "../test/test_img.jpg";
 import Image from "react-bootstrap/Image";
 import ContextMenu from "./ContextMenu";
 import { getBoundaries } from "../api/DragLineApi";
+import { getRois } from "../api/DragRoiApi";
 
 const VideoStream = ({ selectedCam }) => {
 
@@ -17,8 +18,7 @@ const VideoStream = ({ selectedCam }) => {
   useEffect(() => {
     // console.log(`selectedcam: ${selectedCam} ${typeof selectedCam}`);
     setCamId(selectedCam);
-    const fetchData = async () => {
-        setCamId(selectedCam);
+    const fetchBoundaries = async () => {
         const res = await getBoundaries({"camId": selectedCam});
         const boundaries = res['boundaries'];
         const newDragLines = boundaries.map(boundary => {
@@ -32,13 +32,26 @@ const VideoStream = ({ selectedCam }) => {
               key: boundary.id,
           };
         }); 
-      
-      // Đặt danh sách mới vào trong state `dragLines`
       setDragLines(newDragLines);
     };
-    fetchData();
-  
-  }, [selectedCam]);
+    fetchBoundaries();
+
+    const fetchRois = async () => {
+      const res = await getRois({"camId": selectedCam});
+      const rois = res['rois'];
+      const newDragRois = rois.map(roi => {
+        return {
+            id: roi.id,
+            camId: roi.camId,
+            points: roi.points,
+            initLock: true,
+            key: roi.id,
+        };
+      }); 
+      setDragRois(newDragRois);
+    };
+    fetchRois();
+    }, [selectedCam]);
   
   
   const itemClickHandler = (item) => {
@@ -57,13 +70,29 @@ const VideoStream = ({ selectedCam }) => {
 
     if (item.id === "2") {
       // add roi
-      const newDragRois = { key: Date.now().toString(), id: `${Date.now().toString()}`, initLock: false };
+      const newDragRois = { key: Date.now().toString(), 
+                            id: `${Date.now().toString()}`, 
+                            initLock: false,
+                            points: (() => {
+                              let newPositions = [];
+                              for (let i = 0; i < 4; i++) {
+                                const newPos = { x: (i % 2) * 50 + 50, y: parseInt(i / 2) * 50 + 50};
+                                newPositions.push(newPos);
+                              }
+                              return newPositions;
+                            })()
+                            };
+      // console.log(newDragRois)
       setDragRois([...dragRois, newDragRois]);
     }
   }
 
   const deleteDragLine = (id) => {
     setDragLines(dragLines.filter(line => line.key !== id));
+  };
+
+  const deleteDragRoi = (id) => {
+    setDragRois(dragRois.filter(roi => roi.key !== id));
   };
 
   return (
@@ -120,7 +149,9 @@ const VideoStream = ({ selectedCam }) => {
             x={position.x}
             y={position.y}
             camId={camId}
+            points={roi.points}
             initLock={roi.initLock}
+            deleteDragRoi={deleteDragRoi}
           />
         ))}
       

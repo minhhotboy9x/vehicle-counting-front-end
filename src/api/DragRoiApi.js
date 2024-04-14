@@ -19,3 +19,17 @@ export async function updateInsertRoi(data = {}) {
     const res = await response.json()
     return res;
 }
+
+export async function deleteRoi(data = {}) {
+    requestOptions.body = JSON.stringify(data);
+    const response = await fetch(`${config.BACKEND}/delete_roi`, requestOptions);
+    const res = await response.json()
+    return res;
+}
+
+export async function getRois(data = {}) {
+    requestOptions.body = JSON.stringify(data);
+    const response = await fetch(`${config.BACKEND}/get_rois`, requestOptions);
+    const res = await response.json()
+    return res;
+}
