@@ -6,10 +6,8 @@ import { deleteBoundary, updateInsertBoundary } from '../api/DragLineApi';
 
 
 const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, initLock }) => {
-  const [controlledPositionL, setControlledPositionL] = useState({ x: x + pointL.x,
-                                                                   y: y + pointL.y });
-  const [controlledPositionR, setControlledPositionR] = useState({ x: x + pointR.x, 
-                                                                   y: y + pointR.y });
+  const [controlledPositionL, setControlledPositionL] = useState({});
+  const [controlledPositionR, setControlledPositionR] = useState({});
   
   const [dotStyle, setDotStyle] = useState("dot_lock")
 
@@ -32,6 +30,11 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
     right: x + parentRef.current.offsetWidth - 20,
     bottom: y + parentRef.current.offsetHeight - 20,
   };
+
+  useEffect(() => {
+    setControlledPositionL({ x: x + pointL.x, y: y + pointL.y });
+    setControlledPositionR({ x: x + pointR.x, y: y + pointR.y });
+  }, [x, y])
 
   useEffect(() => {
     setMiddleBounds({

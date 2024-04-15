@@ -4,8 +4,11 @@ import DragRoi from "./DragRoi";
 import test_img from "../test/test_img.jpg";
 import Image from "react-bootstrap/Image";
 import ContextMenu from "./ContextMenu";
+import config from "../config/config";
 import { getBoundaries } from "../api/DragLineApi";
 import { getRois } from "../api/DragRoiApi";
+
+// config.TESTSTREAMING
 
 const VideoStream = ({ selectedCam }) => {
 
@@ -98,13 +101,7 @@ const VideoStream = ({ selectedCam }) => {
   return (
     <div
       className="video-stream-container"
-      
-      onLoad={() => {
-        setPosition({
-          x: videoStreamRef.current.getBoundingClientRect().x + window.scrollX,
-          y: videoStreamRef.current.getBoundingClientRect().y + window.scrollY,
-        });}}>
-
+     >
       <ContextMenu 
         id='link-context-menu' 
         onItemClicked={itemClickHandler}
@@ -120,7 +117,14 @@ const VideoStream = ({ selectedCam }) => {
       ]}>
         <Image
           ref={videoStreamRef}
-          src={test_img}
+          onLoad={() => {
+          setPosition({
+            x: videoStreamRef.current.getBoundingClientRect().x + window.scrollX,
+            y: videoStreamRef.current.getBoundingClientRect().y + window.scrollY,
+          });
+          // console.log(position);
+          }}
+          src={`${config.BACKEND}/streaming/${camId}`}
           alt="Video Stream"
           style={{ width: 800, height: 600 }}
           rounded

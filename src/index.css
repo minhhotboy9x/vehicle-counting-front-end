@@ -22,7 +22,8 @@ body {
   height: 20px;
   width: 20px;
   position: absolute;
-  background-color: #F0E68C;
+  /* background-color: #F0E68C; */
+  background-color: transparent;
   border-radius: 100%;
 }
 
