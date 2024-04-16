@@ -34,7 +34,7 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
   useEffect(() => {
     setControlledPositionL({ x: x + pointL.x, y: y + pointL.y });
     setControlledPositionR({ x: x + pointR.x, y: y + pointR.y });
-  }, [x, y])
+  }, [x, y, pointL, pointR])
 
   useEffect(() => {
     setMiddleBounds({
@@ -123,9 +123,9 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
 
   }
 
-  const handleDragLineClick = (event) => {
-    console.log("clicked dragline")
-  };
+  // const handleDragLineClick = (event) => {
+  //   console.log("clicked dragline")
+  // };
 
   return (
     <div className="overlay">
@@ -154,10 +154,11 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
         <Draggable disabled={lock} position={halfwayPoint} onDrag={onControlledDragMidpoint} onStop={onDragStop} bounds={middleBounds}>
           <span className={dotStyle} />
         </Draggable>
-
+        
+        {/* 
         <Draggable disabled={true} position={directPoint}>
           <span className="direct_dot" onClick={handleDragLineClick}/>
-        </Draggable>
+        </Draggable> */}
 
         <Line
           className="line"
