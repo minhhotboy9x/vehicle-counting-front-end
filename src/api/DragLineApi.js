@@ -34,3 +34,10 @@ export async function getBoundaries(data = {}) {
     const res = await response.json()
     return res;
 }
+
+export async function getBoundaryProperty(data = {}) {
+    requestOptions.body = JSON.stringify(data);
+    const response = await fetch(`${config.BACKEND}/get_boundary_property`, requestOptions);
+    const res = await response.json()
+    return res;
+}

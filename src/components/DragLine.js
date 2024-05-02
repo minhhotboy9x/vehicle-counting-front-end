@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 import ContextMenu from './ContextMenu'
-import { deleteBoundary, updateInsertBoundary } from '../api/DragLineApi';
+import { deleteBoundary, updateInsertBoundary, getBoundaryProperty } from '../api/DragLineApi';
 
 
-const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, initLock }) => {
+const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, initLock, setProperty }) => {
   const [controlledPositionL, setControlledPositionL] = useState({});
   const [controlledPositionR, setControlledPositionR] = useState({});
   
@@ -121,6 +121,16 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
       deleteDragLine(id);
     }
 
+    if (item.caption==="Property") {
+      const res = await getBoundaryProperty({
+        "id": id,
+        "camId": camId
+      })
+      let boundary = res['boundaries'][0];
+      boundary = {...{type: "boundary"} , ...boundary}
+      console.log(boundary);
+      setProperty(boundary)
+    }
   }
 
   // const handleDragLineClick = (event) => {
@@ -140,6 +150,10 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
           {
             id: "2",
             caption: "Delete",
+          },
+          {
+            id: "3",
+            caption: "Property",
           },
 
         ]}>

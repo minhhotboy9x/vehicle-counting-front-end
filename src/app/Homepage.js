@@ -1,20 +1,22 @@
 import Navbar from "../components/Navbar";
 import Listcam from "../components/Listcam";
 import VideoStream from "../components/VideoStream";
+import DragLineProps  from "../components/DragLineProps"
 import { useState, useEffect } from "react";
 
 const Homepage = () => {
     const [selectedCam, setSelectedCam] = useState('1');
+    const [property, setProperty] = useState(null);
 
-    return ( 
+    return (
         <div className="home">
-            <Listcam className='Listcam' setSelectedCam={setSelectedCam}/>
+            <Listcam className='Listcam' setSelectedCam={setSelectedCam} />
             <div className="video-form">
-                <VideoStream selectedCam={selectedCam}/>
-                {/* Phần tử khác bạn muốn chèn vào đây */}
+                <VideoStream selectedCam={selectedCam} setProperty={setProperty} />
+                {property && <DragLineProps props={property}/>}
             </div>
         </div>
     );
 }
- 
+
 export default Homepage;
