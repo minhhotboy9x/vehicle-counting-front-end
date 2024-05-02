@@ -116,7 +116,8 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
       const res = await deleteBoundary({
         "id": id, 
         "camId": camId,
-      })
+      });
+      setProperty(null);
       console.log(res.message);
       deleteDragLine(id);
     }
@@ -128,8 +129,8 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
       })
       let boundary = res['boundaries'][0];
       boundary = {...{type: "boundary"} , ...boundary}
-      console.log(boundary);
-      setProperty(boundary)
+      // console.log(boundary);
+      setProperty(boundary);
     }
   }
 

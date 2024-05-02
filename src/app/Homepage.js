@@ -1,4 +1,3 @@
-import Navbar from "../components/Navbar";
 import Listcam from "../components/Listcam";
 import VideoStream from "../components/VideoStream";
 import DragLineProps  from "../components/DragLineProps"
@@ -13,7 +12,7 @@ const Homepage = () => {
             <Listcam className='Listcam' setSelectedCam={setSelectedCam} />
             <div className="video-form">
                 <VideoStream selectedCam={selectedCam} setProperty={setProperty} />
-                {property && <DragLineProps props={property}/>}
+                {property && <DragLineProps props={property} setProperty={setProperty}/>}
             </div>
         </div>
     );

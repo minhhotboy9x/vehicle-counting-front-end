@@ -57,13 +57,11 @@ body {
   margin-top: 10px;
   margin-left: 100px; 
   width: fit-content;
-  block-size: fit-content; 
-  display: flex;
+  block-size: fit-content;
 }
 
 .video-form {
   display: flex;
-  
 }
 
 
