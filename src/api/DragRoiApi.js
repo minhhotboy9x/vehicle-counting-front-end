@@ -33,3 +33,10 @@ export async function getRois(data = {}) {
     const res = await response.json()
     return res;
 }
+
+export async function getRoiProperty(data = {}) {
+    requestOptions.body = JSON.stringify(data);
+    const response = await fetch(`${config.BACKEND}/get_roi_property`, requestOptions);
+    const res = await response.json()
+    return res;
+}

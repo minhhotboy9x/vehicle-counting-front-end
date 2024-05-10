@@ -20,16 +20,26 @@ const DragLineProps = ({ props, setProperty }) => {
         setProperty(boundary);
     }
 
+    const parsePoint = (key, value) => {
+        if (key === 'pointL' || key === "pointR") {
+            return `x: ${value.x}   y: ${value.y}`;
+        }
+        else
+        {
+            return JSON.stringify(value);
+        }
+    }
+
     return (
         <Form style={{ marginTop: '20px', marginLeft: '100px' }}>
             {Object.entries(props).map(([key, value]) => (
                 keys.includes(key) &&
                 <Form.Group as={Row} className="mb-2" key={key}>
-                    <Form.Label column sm={3} >{key}</Form.Label>
+                    <Form.Label column sm={3} >{key}:</Form.Label>
                     <Col sm="10">
                         <Form.Control
                             type="text"
-                            value={typeof value === 'object' ? JSON.stringify(value) : value}
+                            value={typeof value === 'object' ? parsePoint(key, value) : value}
                             readOnly
                         />
                     </Col>

@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Line } from 'react-lineto';
 import Draggable from 'react-draggable';
 import ContextMenu from './ContextMenu'
-import { deleteRoi, updateInsertRoi } from '../api/DragRoiApi';
+import { deleteRoi, updateInsertRoi, getRoiProperty} from '../api/DragRoiApi';
 
-const DragRoi = ({id, parentRef, x, y, points, camId, deleteDragRoi, initLock }) => {
+const DragRoi = ({id, parentRef, x, y, points, camId, deleteDragRoi, initLock, setProperty }) => {
     const [controlledPositions, setControlledPositions] = useState([]);
     const [dotStyle, setDotStyle] = useState("dot_lock");
     const [lock, setLock] = useState(initLock);   
@@ -88,6 +88,7 @@ const DragRoi = ({id, parentRef, x, y, points, camId, deleteDragRoi, initLock })
         if (item.caption==="Unlock") {
             setLock(false);
         }
+
         if (item.caption==="Lock") {
             setLock(true);
             const res = await updateInsertRoi({
@@ -97,6 +98,7 @@ const DragRoi = ({id, parentRef, x, y, points, camId, deleteDragRoi, initLock })
             });
             console.log(res.message);
         }
+
         if (item.caption==="Delete") {
             const res = await deleteRoi({
                 'id': id,
@@ -106,6 +108,18 @@ const DragRoi = ({id, parentRef, x, y, points, camId, deleteDragRoi, initLock })
             console.log(res.message);
             deleteDragRoi(id);
         }
+
+        if (item.caption==="Property") {
+            const res = await getRoiProperty({
+              "id": id,
+              "camId": camId
+            })
+            let roi = res['rois'][0];
+            roi = {...{type: "roi"} , ...roi}
+            // console.log(roi);
+            setProperty(roi);
+          }
+
     }
 
     return ( 
@@ -121,6 +135,10 @@ const DragRoi = ({id, parentRef, x, y, points, camId, deleteDragRoi, initLock })
                 {
                     id: "2",
                     caption: "Delete",
+                },
+                {
+                    id: "3",
+                    caption: "Property",
                 },
             ]}>
 

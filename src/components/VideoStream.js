@@ -158,6 +158,7 @@ const VideoStream = ({ selectedCam, setProperty }) => {
           points={roi.points}
           initLock={roi.initLock}
           deleteDragRoi={deleteDragRoi}
+          setProperty={setProperty}
         />
       ))}
 
