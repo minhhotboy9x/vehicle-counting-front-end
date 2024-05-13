@@ -3,7 +3,7 @@ import { getBoundaryProperty } from "../api/DragLineApi";
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
 const DragLineProps = ({ props, setProperty }) => {
-    const keys = ["type", "camId", "in", "out", "pointL", "pointR"];
+    const keys = ["type", "camId", "in", "out"];
 
     const handleClose = (event) => {
         setProperty(null);
@@ -15,7 +15,7 @@ const DragLineProps = ({ props, setProperty }) => {
             "camId": props.camId
         })
         let boundary = res['boundaries'][0];
-        boundary = {...{type: "boundary"} , ...boundary}
+        boundary = { ...{ type: "boundary" }, ...boundary }
         // console.log(boundary);
         setProperty(boundary);
     }
@@ -24,8 +24,7 @@ const DragLineProps = ({ props, setProperty }) => {
         if (key === 'pointL' || key === "pointR") {
             return `x: ${value.x}   y: ${value.y}`;
         }
-        else
-        {
+        else {
             return JSON.stringify(value);
         }
     }

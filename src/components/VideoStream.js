@@ -77,14 +77,7 @@ const VideoStream = ({ selectedCam, setProperty }) => {
         key: Date.now().toString(),
         id: `${Date.now().toString()}`,
         initLock: false,
-        points: (() => {
-          let newPositions = [];
-          for (let i = 0; i < 4; i++) {
-            const newPos = { x: (i % 2) * 50 + 50, y: parseInt(i / 2) * 50 + 50 };
-            newPositions.push(newPos);
-          }
-          return newPositions;
-        })()
+        points: [{x: 100, y: 100}, {x:200, y:100}, {x:200, y:200}, {x:100, y:200}]
       };
       // console.log(newDragRois)
       setDragRois([...dragRois, newDragRois]);

@@ -5,10 +5,10 @@ import ContextMenu from './ContextMenu'
 import { deleteBoundary, updateInsertBoundary, getBoundaryProperty } from '../api/DragLineApi';
 
 
-const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, initLock, setProperty }) => {
+const DragLine = ({ id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, initLock, setProperty }) => {
   const [controlledPositionL, setControlledPositionL] = useState({});
   const [controlledPositionR, setControlledPositionR] = useState({});
-  
+
   const [dotStyle, setDotStyle] = useState("dot_lock")
 
   const [lock, setLock] = useState(initLock);
@@ -21,9 +21,9 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
   });
 
   const getPosOnVid = (Point) => {
-    return ({x: Point.x - x, y: Point.y - y});
+    return ({ x: Point.x - x, y: Point.y - y });
   }
-  
+
   const customBounds = {
     left: x,
     top: y,
@@ -96,11 +96,11 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
   }
 
   const itemClickHandler = async (item) => {
-    if (item.caption==="Unlock") {
+    if (item.caption === "Unlock") {
       setLock(false);
     }
 
-    if (item.caption==="Lock") {
+    if (item.caption === "Lock") {
       setLock(true);
       const res = await updateInsertBoundary({
         'id': id,
@@ -112,9 +112,9 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
       console.log(res.message);
     }
 
-    if (item.caption==="Delete") {
+    if (item.caption === "Delete") {
       const res = await deleteBoundary({
-        "id": id, 
+        "id": id,
         "camId": camId,
       });
       setProperty(null);
@@ -122,13 +122,13 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
       deleteDragLine(id);
     }
 
-    if (item.caption==="Property") {
+    if (item.caption === "Property") {
       const res = await getBoundaryProperty({
         "id": id,
         "camId": camId
       })
       let boundary = res['boundaries'][0];
-      boundary = {...{type: "boundary"} , ...boundary}
+      boundary = { ...{ type: "boundary" }, ...boundary }
       // console.log(boundary);
       setProperty(boundary);
     }
@@ -140,13 +140,13 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
 
   return (
     <div className="overlay">
-      <ContextMenu 
-        id={id} 
+      <ContextMenu
+        id={id}
         onItemClicked={itemClickHandler}
         items={[
           {
             id: "1",
-            caption: lock?"Unlock":"Lock",
+            caption: lock ? "Unlock" : "Lock",
           },
           {
             id: "2",
@@ -169,7 +169,7 @@ const DragLine = ({id, parentRef, x, y, pointL, pointR, camId, deleteDragLine, i
         <Draggable disabled={lock} position={halfwayPoint} onDrag={onControlledDragMidpoint} onStop={onDragStop} bounds={middleBounds}>
           <span className={dotStyle} />
         </Draggable>
-        
+
         {/* 
         <Draggable disabled={true} position={directPoint}>
           <span className="direct_dot" onClick={handleDragLineClick}/>

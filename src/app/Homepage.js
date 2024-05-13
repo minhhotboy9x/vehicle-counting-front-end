@@ -13,7 +13,7 @@ const Homepage = () => {
             <Listcam className='Listcam' setSelectedCam={setSelectedCam} />
             <div className="video-form">
                 <VideoStream selectedCam={selectedCam} setProperty={setProperty} />
-                {property &&
+                {property && property.hasOwnProperty('camId') &&
                     (
                         property.type === 'boundary' ?
                             <DragLineProps props={property} setProperty={setProperty} />
