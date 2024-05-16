@@ -14,12 +14,12 @@ const VideoStream = ({ selectedCam, setProperty }) => {
 
   const [dragLines, setDragLines] = useState([]);
   const [dragRois, setDragRois] = useState([]);
-  const [camId, setCamId] = useState(null);
+  const [camId, setCamId] = useState(selectedCam);
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const videoStreamRef = useRef(null);
 
   useEffect(() => {
-    // console.log(`selectedcam: ${selectedCam} ${typeof selectedCam}`);
+    setProperty(null);
     setCamId(selectedCam);
     const fetchBoundaries = async () => {
       const res = await getBoundaries({ "camId": selectedCam });
@@ -54,7 +54,7 @@ const VideoStream = ({ selectedCam, setProperty }) => {
       setDragRois(newDragRois);
     };
     fetchRois();
-  }, [selectedCam]);
+  }, [selectedCam, setProperty]);
 
 
   const itemClickHandler = (item) => {

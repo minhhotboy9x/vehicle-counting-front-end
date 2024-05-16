@@ -9,27 +9,6 @@ const DragRoi = ({ id, parentRef, x, y, points, camId, deleteDragRoi, initLock, 
     const [dotStyle, setDotStyle] = useState("dot_lock");
     const [lock, setLock] = useState(initLock);
 
-    // const reSort = (arrayPositions) => {
-    //     if (arrayPositions.length === 0)
-    //         return;
-    //     let sortedArray = [...arrayPositions].sort((a, b) => {
-    //         if (a.y === b.y) {
-    //             return b.x - a.x; // Sắp xếp giảm dần theo x nếu toạ độ y bằng nhau
-    //         } else {
-    //             return a.y - b.y; // Sắp xếp tăng dần theo y
-    //         }
-    //     });
-    //     const o = sortedArray[0];
-    //     const ccw = (a, b) => {
-    //         let vt_a = { x: a.x - o.x, y: a.y - o.y };
-    //         let vt_b = { x: b.x - o.x, y: b.y - o.y };
-    //         let res = vt_a.x * vt_b.y - vt_a.y * vt_b.x;
-    //         return res;
-    //     };
-    //     sortedArray = sortedArray.sort((a, b) => ccw(a, b)); // Thêm return vào đây
-    //     return sortedArray
-    // };
-
     const getPosOnVid = (Point) => {
         return ({ x: Point.x - x, y: Point.y - y });
     }
@@ -39,9 +18,6 @@ const DragRoi = ({ id, parentRef, x, y, points, camId, deleteDragRoi, initLock, 
     }, [lock]);
 
     useEffect(() => {
-        // const sortedPositions = reSort(points.map((point) => (
-        //     {x: x + point.x, y: y + point.y}
-        // )));
         const sortedPositions = points.map((point) => (
             { x: x + point.x, y: y + point.y }
         ));
@@ -123,7 +99,6 @@ const DragRoi = ({ id, parentRef, x, y, points, camId, deleteDragRoi, initLock, 
             // console.log(roi);
             setProperty(roi);
         }
-
     }
 
     return (

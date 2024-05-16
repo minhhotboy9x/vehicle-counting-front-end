@@ -30,7 +30,7 @@ const DragLineProps = ({ props, setProperty }) => {
     }
 
     return (
-        <Form style={{ marginTop: '20px', marginLeft: '100px' }}>
+        <Form style={{ marginTop: "20px", marginLeft: "50px" }}>
             {Object.entries(props).map(([key, value]) => (
                 keys.includes(key) &&
                 <Form.Group as={Row} className="mb-2" key={key}>

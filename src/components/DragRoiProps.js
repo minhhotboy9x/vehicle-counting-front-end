@@ -3,7 +3,7 @@ import { getRoiProperty, updateInsertRoi } from "../api/DragRoiApi";
 import { Form, Row, Col, Button } from "react-bootstrap";
 
 const DragRoiProps = ({ props, setProperty }) => {
-    const keys = ["type", "camId", "mapping points"];
+    const keys = ["type", "camId", "mapping points", "speed limit"];
     const [formModified, setFormModified] = useState(false);
 
     const handleClose = (event) => {
@@ -20,11 +20,20 @@ const DragRoiProps = ({ props, setProperty }) => {
         setProperty(roi);
     };
 
-    const handleChange = (index, field, newValue) => {
+    const handleMappingPointChange = (index, field, newValue) => {
         // Create a copy of the formData array
         const updatedFormData = { ...props };
         // Update the specific field in the copied array
         updatedFormData["mapping points"][index][field] = parseInt(newValue);
+        // Update the state with the new formData
+        setProperty(updatedFormData);
+        setFormModified(true);
+    };
+
+    const handleSpeedChange = (newValue) => {
+        const updatedFormData = { ...props };
+        // Update the specific field in the copied array
+        updatedFormData["speed limit"] = parseInt(newValue);
         // Update the state with the new formData
         setProperty(updatedFormData);
         setFormModified(true);
@@ -38,12 +47,12 @@ const DragRoiProps = ({ props, setProperty }) => {
     };
 
     return (
-        <Form style={{ marginTop: "20px", marginLeft: "100px" }}>
+        <Form style={{ marginTop: "20px", marginLeft: "50px" }}>
             {Object.entries(props).map(
                 ([key, value]) =>
                     keys.includes(key) && (
                         <React.Fragment key={key}>
-                            <Form.Label>{key}: {key === 'mapping points' ? '(meter)' : null}</Form.Label>
+                            <Form.Label>{key} {key === 'mapping points' ? ' from top left to bottom left counterclockwise (meter)' : null} :</Form.Label>
                             {Array.isArray(value) ? (
                                 value.map((item, index) => (
                                     <Row key={index}>
@@ -56,7 +65,7 @@ const DragRoiProps = ({ props, setProperty }) => {
                                                     key={index}
                                                     type="number"
                                                     value={item.x}
-                                                    onChange={e => handleChange(index, 'x', e.target.value)}
+                                                    onChange={e => handleMappingPointChange(index, 'x', e.target.value)}
                                                 />
                                             </Col>
                                             <Form.Label column sm={1}>
@@ -67,14 +76,21 @@ const DragRoiProps = ({ props, setProperty }) => {
                                                     key={index}
                                                     type="number"
                                                     value={item.y}
-                                                    onChange={e => handleChange(index, 'y', e.target.value)}
+                                                    onChange={e => handleMappingPointChange(index, 'y', e.target.value)}
                                                 />
                                             </Col>
                                         </Form.Group>
                                     </Row>
                                 )))
-                                : (
-                                    <Col sm={2}>
+                                : (key === "speed limit" ?
+                                    (<Col sm={2}>
+                                        <Form.Control
+                                            type="number"
+                                            value={value}
+                                            onChange={e => handleSpeedChange(e.target.value)}
+                                        />
+                                    </Col>) :
+                                    (<Col sm={2}>
                                         <Form.Control
                                             type="text"
                                             value={
@@ -83,7 +99,7 @@ const DragRoiProps = ({ props, setProperty }) => {
                                             readOnly
                                         />
                                     </Col>
-                                )}
+                                    ))}
 
                             <br key={Date.now()} />
                         </React.Fragment>
@@ -93,7 +109,7 @@ const DragRoiProps = ({ props, setProperty }) => {
                 variant="success"
                 className="m-2"
                 onClick={handleSaveChanges}
-                disabled={!formModified}               
+                disabled={!formModified}
             >
                 Save Changes
             </Button>
