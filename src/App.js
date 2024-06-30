@@ -7,6 +7,7 @@ import Footer from './components/Footer';
 import AuthPage from './app/AuthPage';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import config from './config/config.js';
 
 function App() {
   const [userSession, setUserSession] = useState();
@@ -16,14 +17,14 @@ function App() {
   return (
     <Router>
       <div className="app">
-        {userSession && <GoogleOAuthProvider clientId="745875377237-pqqjaukdkq4tjpta8rqobooi4fk8mfg8.apps.googleusercontent.com">
+        {userSession && <GoogleOAuthProvider clientId={config.CLIENTID}>
           <Navigation userSession={userSession} setUserSession={setUserSession} />
         </GoogleOAuthProvider>
         }
         <Switch>
           <Route exact path="/">
             {userSession ? <Redirect to="/homepage" /> :
-              <GoogleOAuthProvider clientId="745875377237-pqqjaukdkq4tjpta8rqobooi4fk8mfg8.apps.googleusercontent.com">
+              <GoogleOAuthProvider clientId={config.CLIENTID}>
                 <AuthPage setUserSession={setUserSession} />
               </GoogleOAuthProvider>
             }
